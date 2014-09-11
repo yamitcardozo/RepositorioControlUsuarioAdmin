@@ -32,19 +32,17 @@ public class impleRegUsuario implements InterfazRegUsuario {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void actualizarRegUsuario(RegUsuario s, String idUsuario) {
+    public void actualizarRegUsuario(RegUsuario s, String idRegistro) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void borrarRegUsuario(String idUsuario) {
+    public void borrarRegUsuario(String idRegistro) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public RegUsuario leerRegUsuario(String idusuario) throws ExcepcionFlujo {
+    public RegUsuario leerRegUsuario(Date horainicial,Date horaFinal) throws ExcepcionFlujo {
 
-
-
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
 }

@@ -1,7 +1,9 @@
 package ControlUsuario;
 
+import ControlExcepciones.ExcepcionFlujo;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.apache.log4j.Logger;
 
 /*
  * To change this template, choose Tools | Templates
@@ -15,57 +17,44 @@ import java.net.Socket;
  * @author Administrator2
  */
 public class ConectorServer {
-
-     public void iniciar(){
-           ServerSocket ss;
-        System.out.print("Inicializando servidor... ");
+        private Logger log = Logger.getLogger(ConectorServer.class);
+     public void iniciar() throws ExcepcionFlujo{
+        
+        ServerSocket ss=null;
+        Socket socket=null;
+        int puerto = 10578;
+        int maximoDeConexiones = 30;  // maximo de conexiones simultaneas
+        //MensajeObserver mensaje = new MensajeObserver();
+        MensajeObserver mensaje;
         try {
-            ss = new ServerSocket(10578);
-            System.out.println("\t[OK]");
+            // se crea el server socket
+            ss = new ServerSocket(puerto,maximoDeConexiones);
             int idSession = 0;
+            // bucle infinito para esperar conexion
             while (true) {
-                Socket socket;
+                log.info("ConectorServer : Servidor a la espera de conexion");
                 socket = ss.accept();
-                System.out.println("Nueva conexión entrante: "+socket);
-                ((hiloEjecucion) new hiloEjecucion(socket, idSession)).start();
+                mensaje = new MensajeObserver();
+                log.info("ConectorServer : Cliente con la IP " + socket.getInetAddress().getHostName() + " conectado.");
+                // se crea un hilo por cada conexion cliente
+                hiloEjecucion hi = new hiloEjecucion(socket, idSession,mensaje);
+                hi.start();
                 idSession++;
             }
 
-        } catch (/*IOException ex*/ Exception e) {
-            //Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            log.error("ConectorServer : conectar servidor ");
+            throw new ExcepcionFlujo(e);
+        }finally
+        {
+             try {
+                socket.close();
+                ss.close();
+            } catch (Exception ex) {
+                log.error("ConectorServer : Error al cerrar el servidor: ");
+                throw new ExcepcionFlujo(ex);
+            }
         }
      }
-    /*ServerSocket server;
-    Socket socket;
-    int puerto = 9000;
-    DataOutputStream salida;
-    BufferedReader entrada;
-    DatosArchivo archivo;
-
-    public void iniciar(){
-        archivo = new DatosArchivo();
-        String dato;
-        String verificado="noverificado";
-        try{
-            
-            server = new ServerSocket(puerto);
-            socket = new Socket();
-            System.out.println("esperando cliente");
-            socket = server.accept();
-            
-            System.out.println("cliente conectado");
-            entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String mensaje  = entrada.readLine();
-            dato = archivo.lecturaArchivo(mensaje);
-            System.out.println(dato +"  dato de archivo"+mensaje);
-            archivo.escrituraArchivo("oscar.11:30.1:30.2014");
-            if(dato.equalsIgnoreCase(mensaje)){
-                verificado = "verificado";
-            }
-            salida = new DataOutputStream(socket.getOutputStream());
-            salida.writeUTF(verificado + " malongo");
-            socket.close();
-            
-        }catch(Exception e){}
-    }*/
+    
 }

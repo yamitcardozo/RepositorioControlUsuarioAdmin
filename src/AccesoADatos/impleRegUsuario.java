@@ -28,7 +28,7 @@ public class impleRegUsuario implements InterfazRegUsuario {
     private int idSessio;
     private Logger log = Logger.getLogger(ExcepcionFlujo.class);
 
-    public void crearRegUsuario(RegUsuario s) {
+    public void crearRegUsuario(RegUsuario s){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -40,41 +40,10 @@ public class impleRegUsuario implements InterfazRegUsuario {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public RegUsuario leerRegUsuario(String idusuario) {
+    public RegUsuario leerRegUsuario(String idusuario) throws ExcepcionFlujo {
 
 
-//          DatosArchivo archivoServidor = new DatosArchivo();
-//          String datosArchivo;
-//          String accion = "";
-//         userServicio s = new userServicio();
-//          RegUsuario sr = new RegUsuario();
-//            try {
-//            accion = dis.readUTF();
-//            s.asignacionAtributos(accion);
-//            datosArchivo = archivoServidor.lecturaArchivo(s.getUsuario()+"&"+s.getContraseña()+"&");
-//            if(datosArchivo.equalsIgnoreCase(s.getUsuario()+"&"+s.getContraseña()+"&")){
-//                datosArchivo=datosArchivo+s.getFechaInicio()+"&";
-//                datosArchivo=datosArchivo+s.getHoraInicio()+"&";
-//                archivoServidor.escrituraArchivo(datosArchivo);
-//            }else{
-//                datosArchivo = "no encontro el usuario especificado";
-//            }
-//
-//
-//            log.info(" datos archivo necesario "+ datosArchivo+"   "+accion );
-//              if(accion.equals(datosArchivo)){
-//                 log.info("El cliente con idSesion "+this.idSessio+" saluda");
-//                 dos.writeUTF(datosArchivo);
-//             }else{
-//                dos.writeUTF("error envio de informacion");
-//             }
-//
-//         } catch (/*IOException ex*/ Exception e) {
-////           // Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
-//             new ExcepcionFlujo(e);
-////        }
-////        desconnectar();
-//     }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

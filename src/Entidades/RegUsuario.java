@@ -16,24 +16,24 @@ public class RegUsuario {
     // se utiliza string para los numero de identificación ya que no son datos
     // que se utilicen para hacer cálculos matematicos.
 
-    private String idRegistro;
-    private Date frechaInicio;
-    private Date fechaFinal;
-    private String idUsuario;
+    private String idRegistro = "NA";
+    private String frechaInicio = "NA";
+    private String fechaFinal = "NA";
+    private String idUsuario = "NA";
 
-    public Date getFechaFinal() {
+    public String getFechaFinal() {
         return fechaFinal;
     }
 
-    public void setFechaFinal(Date fechaFinal) {
+    public void setFechaFinal(String fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
 
-    public Date getFrechaInicio() {
+    public String getFrechaInicio() {
         return frechaInicio;
     }
 
-    public void setFrechaInicio(Date frechaInicio) {
+    public void setFrechaInicio(String frechaInicio) {
         this.frechaInicio = frechaInicio;
     }
 
@@ -52,5 +52,7 @@ public class RegUsuario {
     public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+   
 
 }

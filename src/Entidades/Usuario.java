@@ -14,8 +14,10 @@ public class Usuario {
    // se utiliza string para los numero de identificación ya que no son datos
     // que se utilicen para hacer cálculos matematicos.
 
-    private String idUsuario;
-    private String contraseña;
+    private String idUsuario = "NA";
+    private String contraseña = "NA";
+    private String primerNombre = "NA";
+    private String primerApellido = "NA";
 
     public String getContraseña() {
         return contraseña;
@@ -48,7 +50,5 @@ public class Usuario {
     public void setPrimerNombre(String primerNombre) {
         this.primerNombre = primerNombre;
     }
-    private String primerNombre;
-    private String primerApellido;
 
 }

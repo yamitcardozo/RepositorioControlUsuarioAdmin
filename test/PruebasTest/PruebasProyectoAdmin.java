@@ -45,12 +45,20 @@ public class PruebasProyectoAdmin {
 //     public void hello() {}
     @Test
     public void asigancionAtributosLoggueoTest(){
+//        userServicio s = new userServicio();
+//        s.asignacionAtributos("oscar&mera&28/08/2014&9:30&");
+//        assertEquals("oscar",s.getUsuario());
+//        assertEquals("mera",s.getContraseña());
+//        assertEquals("28/08/2014",s.getFechaInicio());
+//        assertEquals("9:30",s.getHoraInicio());
+    }
+    @Test
+    public void asignacionAtributosUsuario()
+    {
         userServicio s = new userServicio();
-        s.asignacionAtributos("oscar&mera&28/08/2014&9:30&");
-        assertEquals("oscar",s.getUsuario());
-        assertEquals("mera",s.getContraseña());
-        assertEquals("28/08/2014",s.getFechaInicio());
-        assertEquals("9:30",s.getHoraInicio());
+        s.asignacionAtributosUsuario("romerlo&123&");
+        assertEquals("romerlo", s.getU().getIdUsuario());
+        assertEquals("123",s.getU().getContraseña() );
     }
 
 }

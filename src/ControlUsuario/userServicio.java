@@ -5,6 +5,9 @@
 
 package ControlUsuario;
 
+import Entidades.RegUsuario;
+import Entidades.Usuario;
+
 /**
  *
  * @author Administrator2
@@ -12,41 +15,29 @@ package ControlUsuario;
  */
 public class userServicio {
 
-     private String contraseña = "NA";
-     private String usuario = "NA";
-     private String FechaInicio = "NA";
-     private String horaInicio="NA";
+     private RegUsuario RU;
+     private Usuario U;
 
-    public String getHoraInicio() {
-        return horaInicio;
+     public userServicio()
+     {
+         U = new Usuario();
+         RU = new RegUsuario();
+     }
+
+    public RegUsuario getRU() {
+        return RU;
     }
 
-    public void setHoraInicio(String horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setRU(RegUsuario RU) {
+        this.RU = RU;
     }
 
-    public String getFechaInicio() {
-        return FechaInicio;
+    public Usuario getU() {
+        return U;
     }
 
-    public void setFechaInicio(String FechaInicio) {
-        this.FechaInicio = FechaInicio;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setU(Usuario U) {
+        this.U = U;
     }
 
     /////////////////////////
@@ -54,34 +45,62 @@ public class userServicio {
     /**
      * recoge el string de mensaje completo y asigna a cada atributo su valor
      */
-    public void asignacionAtributos(String mensaje){
-        int tamaño = mensaje.length();
-        String hilera="";
-        char caracter;
-        int indicador1=0;
-        int indicador2=0;
-        int indicador3=0;
-        for(int i=0;i<tamaño;i++){
+//    public void asignacionAtributos(String mensaje){
+//        int tamaño = mensaje.length();
+//        String hilera="";
+//        char caracter;
+//        int indicador1=0;
+//        int indicador2=0;
+//        int indicador3=0;
+//        for(int i=0;i<tamaño;i++){
+//            caracter = mensaje.charAt(i);
+//
+//            if(caracter=='&'){
+//                if(indicador1==0){
+//                    RU.setIdUsuario(hilera);
+//                    indicador1=1;
+//                }else if (indicador2==0){
+//                    RU. = hilera;
+//                    indicador2=1;
+//                }else if(indicador3==0){
+//                    FechaInicio = hilera;
+//                    indicador3=1;
+//                }
+//                else{
+//                    horaInicio=hilera;
+//                }
+//                hilera="";
+//            }else{
+//            hilera=hilera+caracter;
+//            }
+//        }
+//    }
+
+     public void asignacionAtributosUsuario(String mensaje)
+     {
+         int tamaño = mensaje.length();
+         char caracter;
+         int indicador=0;
+         String hilera="";
+         
+         for(int i=0;i<tamaño;i++)
+         {
             caracter = mensaje.charAt(i);
-            
-            if(caracter=='&'){
-                if(indicador1==0){
-                    usuario = hilera;
-                    indicador1=1;
-                }else if (indicador2==0){
-                    contraseña = hilera;
-                    indicador2=1;
-                }else if(indicador3==0){
-                    FechaInicio = hilera;
-                    indicador3=1;
-                }
-                else{
-                    horaInicio=hilera;
+            if(caracter=='&')
+            {
+                if(indicador==0)
+                {
+                    U.setIdUsuario(hilera);
+                    indicador=1;
+                }else
+                {
+                    U.setContraseña(hilera);
                 }
                 hilera="";
-            }else{
-            hilera=hilera+caracter;
+            }else
+            {
+                hilera = hilera+caracter;
             }
-        }
-    }
+         }
+     }
 }

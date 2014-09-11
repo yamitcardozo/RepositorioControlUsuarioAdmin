@@ -5,6 +5,7 @@
 
 package LogicaDeNegocio;
 
+import ControlExcepciones.ExcepcionFlujo;
 import Entidades.RegUsuario;
 
 
@@ -12,9 +13,9 @@ import Entidades.RegUsuario;
  * realizacion del CRUD de tranferencia de datos DAO Interfaz.
  * @author Administrator2
  */
-public interface InterfazRegUsuario {
-    public void crearRegUsuario(RegUsuario s);
-    public void actualizarRegUsuario(RegUsuario s,String idUsuario);
-    public void borrarRegUsuario(String idUsuario);
-    public RegUsuario leerRegUsuario(String idusuario);
+public interface InterfazRegUsuario  {
+    public void crearRegUsuario(RegUsuario s) throws ExcepcionFlujo;
+    public void actualizarRegUsuario(RegUsuario s,String idUsuario) throws ExcepcionFlujo;
+    public void borrarRegUsuario(String idUsuario) throws ExcepcionFlujo;
+    public RegUsuario leerRegUsuario(String idusuario) throws ExcepcionFlujo;
 }

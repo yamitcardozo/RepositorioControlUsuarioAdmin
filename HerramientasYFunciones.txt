@@ -1,0 +1,29 @@
+ Para crear el scroll, se utilizo el scrollPane y un Jpanel, con un borde definido,
+se crea el crollpane con unas dimensiones que son las que prevalecen en el Jframe
+
+Uso de include y extend.
+Include. se dice que el caso de uso base incluye al segundo caso de uso, el
+segundo es parte esencial del primero, sin el segundo el primero no
+funcionaria bien, no podría cumplir su objetivo, para una venta en caja, la
+venta no se considera completa sino se realiza el proceso para
+cobrarla.
+Extend. una de la diferencias es caso de uso extend  hay situaciones en que no
+es indispensable que ocurra, y cuando lo hace ofrece un valor extra(extiende) al objetivo
+original del caso de uso base, se puede realizar una venta sin acomular puntos.
+(error querer mostrar alto detalle del proceso)Debe de existir  una razón importante  para que se decida dividir  un caso de
+uso en dos que seran unidos por medio de estas relaciones. Al modelar el
+diagrama de casos de uso no se busca modelar el detalle y mucho menos los flujos.
+Todo ese detalle se puede plasmar en diagramas de interacción, actividad,
+de estados, o especificar en un texto.
+otro abuso cuando se quiere representar la union por una desicion de diseño
+del sistema, por una desicion  de navegabilidad entre funciones. esta relacion
+no se deberia hacer ya que  se ligaron no graficamente sino en ejecucion del sistema.
+Uso adeacudo se identifica que hay pasos iguales en dos o mas casos de uso, es un
+oportunidad de identificar reuso, ejemplo realizar venta y realizar compra por internet
+include actualizar inventario.
+Fachada : colaboración.
+-Los clientes que se comunican con el subsistema enviando peticiones al objeto
+Fachada, el cual las reenvía a los objetos apropiados del subsistema.
+-Los objetos del subsistema realizan el trabajo final ,y la fachada hace algo
+de trabajo para pasar de su interfaz a las del subsistema.
+-Los clientes que usan la fachada no tienen que acceder directamente a los objetos del subsistema.

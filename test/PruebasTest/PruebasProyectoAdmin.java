@@ -5,6 +5,8 @@
 
 package PruebasTest;
 
+import ContenedorDeDatos.DatosArchivo;
+import ControlExcepciones.ExcepcionFlujo;
 import ControlUsuario.userServicio;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -59,6 +61,13 @@ public class PruebasProyectoAdmin {
         s.asignacionAtributosUsuario("romerlo&123&");
         assertEquals("romerlo", s.getU().getIdUsuario());
         assertEquals("123",s.getU().getContraseña() );
+    }
+    @Test
+    public void buscarUsuarioId() throws ExcepcionFlujo
+    {
+        DatosArchivo a = new DatosArchivo();
+        String dato = a.lecturaArchivoid("1038098543", "archivoServidor.txt");
+        assertEquals("1038098543&joselo&yamit&cardozo&yamit.cardozo", dato);
     }
 
 }

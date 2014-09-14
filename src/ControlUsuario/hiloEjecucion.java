@@ -78,38 +78,38 @@ public class hiloEjecucion extends Thread implements Observer{
                 }
             }
         }
-        DatosArchivo archivoServidor = new DatosArchivo();
-        String datosArchivo;
-        String accion = "";
-        userServicio s = new userServicio();
-        Usuario u = s.getU();
-        String uUsuario;
-        String uContraseña;
-        try {
-           accion = dis.readUTF();
-           s.asignacionAtributosUsuario(accion);
-           uUsuario = u.getIdUsuario();
-           uContraseña = u.getContraseña();
-           datosArchivo = archivoServidor.lecturaArchivo(uUsuario+"&"+uContraseña+"&");
-           if(datosArchivo.equalsIgnoreCase(uUsuario+"&"+uContraseña+"&")){
-                log.info("El cliente con idSesion "+this.idSessio+" saluda");
-                dos.writeUTF("aceptado");
-//               datosArchivo=datosArchivo+s.getFechaInicio()+"&";
-//               datosArchivo=datosArchivo+s.getHoraInicio()+"&";
-//               archivoServidor.escrituraArchivo(datosArchivo);
-           }else{
-               log.info("El cliente con idSesion "+this.idSessio+"no se encuentra en la base de datos"+ uUsuario+"&"+uContraseña+"&");
-               dos.writeUTF("denegado");
-           }
-        } catch (Exception e) {
-            log.info("hiloEjecucion:run");
-           new ExcepcionFlujo(e);
-        }
-        try {
-            desconnectar();
-        } catch (Exception ex) {
-            new ExcepcionFlujo(ex);
-        }
+//        DatosArchivo archivoServidor = new DatosArchivo();
+//        String datosArchivo;
+//        String accion = "";
+//        userServicio s = new userServicio();
+//        Usuario u = s.getU();
+//        String uUsuario;
+//        String uContraseña;
+//        try {
+//           accion = dis.readUTF();
+//           s.asignacionAtributosUsuario(accion);
+//           uUsuario = u.getIdUsuario();
+//           uContraseña = u.getContraseña();
+//           datosArchivo = archivoServidor.lecturaArchivo(uUsuario+"&"+uContraseña+"&");
+//           if(datosArchivo.equalsIgnoreCase(uUsuario+"&"+uContraseña+"&")){
+//                log.info("El cliente con idSesion "+this.idSessio+" saluda");
+//                dos.writeUTF("aceptado");
+////               datosArchivo=datosArchivo+s.getFechaInicio()+"&";
+////               datosArchivo=datosArchivo+s.getHoraInicio()+"&";
+////               archivoServidor.escrituraArchivo(datosArchivo);
+//           }else{
+//               log.info("El cliente con idSesion "+this.idSessio+"no se encuentra en la base de datos"+ uUsuario+"&"+uContraseña+"&");
+//               dos.writeUTF("denegado");
+//           }
+//        } catch (Exception e) {
+//            log.info("hiloEjecucion:run");
+//           new ExcepcionFlujo(e);
+//        }
+//        try {
+//            desconnectar();
+//        } catch (Exception ex) {
+//            new ExcepcionFlujo(ex);
+//        }
     }
 
     public void update(Observable o, Object arg) {

@@ -20,7 +20,7 @@ public class Computadora {
 	 */
 	private String descripcion;
 	/**
-	 *  indica si la computadora esta disponible.
+	 *  indica si la computadora esta disponible para ser usada.
 	 */
 	private String estado;
     /**

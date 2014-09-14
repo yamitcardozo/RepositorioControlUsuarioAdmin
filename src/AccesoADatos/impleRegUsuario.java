@@ -7,13 +7,15 @@
 package AccesoADatos;
 
 import ControlExcepciones.ExcepcionFlujo;
-import ControlUsuario.DatosArchivo;
+//import ControlUsuario.DatosArchivo;
 import ControlUsuario.userServicio;
 import Entidades.RegUsuario;
 import LogicaDeNegocio.InterfazRegUsuario;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.Date;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
@@ -22,27 +24,32 @@ import org.apache.log4j.Logger;
  */
 public class impleRegUsuario implements InterfazRegUsuario {
 
-    private Socket socket;
-    private DataOutputStream dos;
-    private DataInputStream dis;
-    private int idSessio;
-    private Logger log = Logger.getLogger(ExcepcionFlujo.class);
-
-    public void crearRegUsuario(RegUsuario s){
+    public List<RegUsuario> obtener() throws ExcepcionFlujo {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void actualizarRegUsuario(RegUsuario s, String idRegistro) {
+    public RegUsuario obtenerPorCodigo(String idRegistro) throws ExcepcionFlujo {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void borrarRegUsuario(String idRegistro) {
+    public RegUsuario crearRegUsuario(RegUsuario s) throws ExcepcionFlujo {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public RegUsuario leerRegUsuario(Date horainicial,Date horaFinal) throws ExcepcionFlujo {
+    public RegUsuario actualizarRegUsuario(RegUsuario s) throws ExcepcionFlujo {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-        
+    public void borrarRegUsuario(RegUsuario s) throws ExcepcionFlujo {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<RegUsuario> registrosPendientes() throws ExcepcionFlujo {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<RegUsuario> registrosEntreFechas(Date fechaInicial, Date fechaFinal) throws ExcepcionFlujo {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

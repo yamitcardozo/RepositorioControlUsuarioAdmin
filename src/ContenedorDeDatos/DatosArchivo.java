@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author Administrator2
+ * @author yamit Cardozo
  */
 public class DatosArchivo {
 

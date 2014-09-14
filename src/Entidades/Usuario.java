@@ -43,6 +43,15 @@ public class Usuario {
         return usuario;
     }
 
+    public Usuario(String idUsuario, String contraseña, String primerNombre,String primerApellido, String usuario)
+    {
+        this.idUsuario = idUsuario;
+        this.contraseña = contraseña;
+        this.primerNombre = primerNombre;
+        this.primerApellido = primerApellido;
+        this.usuario = usuario;
+    }
+
     /**
      *  asiga usuario
      * @param usuario

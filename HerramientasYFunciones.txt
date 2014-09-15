@@ -27,3 +27,20 @@ Fachada, el cual las reenvía a los objetos apropiados del subsistema.
 -Los objetos del subsistema realizan el trabajo final ,y la fachada hace algo
 de trabajo para pasar de su interfaz a las del subsistema.
 -Los clientes que usan la fachada no tienen que acceder directamente a los objetos del subsistema.
+Usuario.  Un usuario puede hacer muchos registros de estudiantes
+idUsuario String PrimaryKey (nombre usuario debe ser único)
+Contraseña  String  not null
+primerNombre String not null
+primerApellido String not null
+usuario String not null (nombre debe ser unico)
+RegUsuario
+idRegistro  String  primary key
+frechaInicio  Date   not null
+fechaFinal  Date   
+estado string not null
+idComputadora Computadora  forainkey
+NombreUsuario Usuario  forainKey
+Computadora
+idComputadora String primaryKey
+descripción String 
+estado string not null

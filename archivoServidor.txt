@@ -1,4 +1,3 @@
 idUsuario&contraseña&primerNombre&primerApellido&usuario
-oscar&1
-fredy&2
+1234&1&oscar&lopera&camilo.lopera
 1038098543&joselo&yamit&cardozo&yamit.cardozo

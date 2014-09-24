@@ -43,6 +43,8 @@ public class Usuario {
         return usuario;
     }
 
+    public Usuario()
+    {}
     public Usuario(String idUsuario, String contraseña, String primerNombre,String primerApellido, String usuario)
     {
         this.idUsuario = idUsuario;

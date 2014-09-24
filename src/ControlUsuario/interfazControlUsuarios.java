@@ -5,14 +5,16 @@
 
 package ControlUsuario;
 
-import java.awt.Container;
+import ControlExcepciones.ExcepcionFlujo;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,12 +22,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Elelegido
  */
 public class interfazControlUsuarios extends JFrame{
+        static AdminChat adm;
         ArrayList lista = new ArrayList();
         AbstractCotrolUsuario a;
         JLabel equipo;
@@ -33,6 +37,7 @@ public class interfazControlUsuarios extends JFrame{
         int numeroComputadoras =30;
         int x = 0;
         int y = 0;
+        static int r=0;
     public interfazControlUsuarios()
     {
         super("Computadoras en sala de Enfermeria");
@@ -47,7 +52,7 @@ public class interfazControlUsuarios extends JFrame{
 //        Container c = getContentPane();
 //        c.setLayout( new GridBagLayout());
 
-        JPanel c = new JPanel(new GridBagLayout());
+        final JPanel c = new JPanel(new GridBagLayout());
         c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JScrollPane scrollPane = new JScrollPane(c);
@@ -111,7 +116,10 @@ public class interfazControlUsuarios extends JFrame{
         b.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-               equipo.setText("mario de los angeles");
+//                adm.visible();
+//                adm.capturarDatos();
+//                adm.iniciacionSocket();
+                r=1;
             }
         });
 
@@ -125,12 +133,17 @@ public class interfazControlUsuarios extends JFrame{
     }
 
 
-           public static void main(String[] args) {
-        // Carga el archivo de configuracion de log4J
-       // PropertyConfigurator.configure("log4j.properties");
+           public static void main(String[] args) throws ExcepcionFlujo {
 
-        interfazControlUsuarios c = new interfazControlUsuarios();
-        //c.recibirMensajesServidor();
+            interfazControlUsuarios c = new interfazControlUsuarios();
+            int i=0;
+            while(i==0){
+                if(r==1){
+             AdminChat a = new AdminChat();
+            adm = a;
+            adm.recibirMensajesServidor();
+            break;
+                }
+            }     
     }
-    
 }

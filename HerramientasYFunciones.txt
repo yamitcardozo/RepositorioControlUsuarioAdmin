@@ -27,12 +27,14 @@ Fachada, el cual las reenvía a los objetos apropiados del subsistema.
 -Los objetos del subsistema realizan el trabajo final ,y la fachada hace algo
 de trabajo para pasar de su interfaz a las del subsistema.
 -Los clientes que usan la fachada no tienen que acceder directamente a los objetos del subsistema.
+
 Usuario.  Un usuario puede hacer muchos registros de estudiantes
 idUsuario String PrimaryKey (nombre usuario debe ser único)
 Contraseña  String  not null
 primerNombre String not null
 primerApellido String not null
 usuario String not null (nombre debe ser unico)
+
 RegUsuario
 idRegistro  String  primary key
 frechaInicio  Date   not null
@@ -40,7 +42,21 @@ fechaFinal  Date
 estado string not null
 idComputadora Computadora  forainkey
 NombreUsuario Usuario  forainKey
+
 Computadora
 idComputadora String primaryKey
 descripción String 
 estado string not null
+
+Se realizo la conexion pensando en varios usuario, se debe volver a verificar
+la funcionalidad cuando se tenga los usuario especificos.
+
+mirar ip que se tienen ipconfig /release, renovar ip  ipconfig /renew
+
+
+Consideraciones : colocar el look and feels a los Jframe, colocar los nombre en
+mayuscula,
+se que utilizar el hilo de segundo plano que maneja el main de java, para poder
+esperar tener que presionar el boton para poder crear la ventana de
+chat para el administrador, esta ventana de chat esta predispuesta para
+comunicacion bidireccional.

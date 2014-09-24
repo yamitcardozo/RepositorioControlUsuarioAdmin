@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author Administrator2
+ * @author Yamit Cardozo
  */
 public class ConectorServer {
         private Logger log = Logger.getLogger(ConectorServer.class);
@@ -25,7 +25,7 @@ public class ConectorServer {
         int puerto = 10578;
         int maximoDeConexiones = 30;  // maximo de conexiones simultaneas
         //MensajeObserver mensaje = new MensajeObserver();
-        MensajeObserver mensaje;
+        MensajeObserver mensaje = new MensajeObserver();
         try {
             // se crea el server socket
             ss = new ServerSocket(puerto,maximoDeConexiones);
@@ -34,7 +34,7 @@ public class ConectorServer {
             while (true) {
                 log.info("ConectorServer : Servidor a la espera de conexion");
                 socket = ss.accept();
-                mensaje = new MensajeObserver();
+                
                 log.info("ConectorServer : Cliente con la IP " + socket.getInetAddress().getHostName() + " conectado.");
                 // se crea un hilo por cada conexion cliente
                 hiloEjecucion hi = new hiloEjecucion(socket, idSession,mensaje);

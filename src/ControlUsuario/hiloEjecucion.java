@@ -5,11 +5,13 @@
 
 package ControlUsuario;
 
+import AccesoADatos.ImpleUsuario;
 import ControlExcepciones.ExcepcionFlujo;
 import Entidades.Usuario;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -28,6 +30,8 @@ public class hiloEjecucion extends Thread implements Observer{
     private int idSessio;
     private MensajeObserver mensaje;
     private Logger log = Logger.getLogger(hiloEjecucion.class);
+    // controla que el administrador este en la lista de observadores
+    private int  controlChatAdmin=0;
 
     public hiloEjecucion(Socket socket, int id, MensajeObserver mensaje) throws ExcepcionFlujo {
         this.socket = socket;
@@ -55,16 +59,53 @@ public class hiloEjecucion extends Thread implements Observer{
     public void run() {
          String mensajeRecibido;
          boolean conectado = true;
-        // Se apunta a la lista de observadores de mensajes
-        mensaje.addObserver(this);
+         String verificador;
+      
+         mensaje.addObserver(this);
 
         while (conectado) {
             try {
                 // Lee un mensaje enviado por el cliente
                 mensajeRecibido = dis.readUTF();
-                // Pone el mensaje recibido en mensajes para que se notifique
+                verificador = verificaArreglo(mensajeRecibido);
+
+                if(verificador.equalsIgnoreCase("1"))
+                {
+                    String[] s = mensajeRecibido.split("&");
+                    Usuario us;
+                    ImpleUsuario is = new ImpleUsuario();
+                    us = is.obtener(s[1]);
+                    if(us==null)
+                    {
+//                        mensaje.setMensaje("NA");
+                        dos.writeUTF("NA");
+                    }else
+                    {
+                        log.info("encontro usuario especifico");
+                        dos.writeUTF(us.getIdUsuario()+"&"+us.getContraseña()+"&"+us.getPrimerNombre()+"&"+us.getPrimerApellido());
+                          // Se apunta a la lista de observadores de mensajes si existe en la
+                        // base de datos
+//                         mensaje.addObserver(this);
+                         System.out.println("estoy en el observador cliente");
+//                        mensaje.setMensaje(us.getIdUsuario()+"&"+us.getContraseña()+"&"+us.getPrimerNombre()+"&"+us.getPrimerApellido());
+                    }
+                }else if(verificador.equalsIgnoreCase("2"))
+                {
+                    // Pone el mensaje recibido en mensajes para que se notifique
                 // a sus observadores que hay un nuevo mensaje.
-                mensaje.setMensaje(mensajeRecibido);
+                System.out.println("cliente desconenctado");
+                }else
+                {
+                    if(controlChatAdmin==0)
+                    {
+//                        mensaje.addObserver(this);
+                        controlChatAdmin=1;
+                    }
+                    System.out.println("admin envio mensajes a los observadores");
+                    mensaje.setMensaje(mensajeRecibido);
+                    System.out.println("mensajes enviados");
+                }
+                
             } catch (Exception ex) {
                 log.info("Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.");
                 conectado = false;
@@ -78,38 +119,12 @@ public class hiloEjecucion extends Thread implements Observer{
                 }
             }
         }
-//        DatosArchivo archivoServidor = new DatosArchivo();
-//        String datosArchivo;
-//        String accion = "";
-//        userServicio s = new userServicio();
-//        Usuario u = s.getU();
-//        String uUsuario;
-//        String uContraseña;
-//        try {
-//           accion = dis.readUTF();
-//           s.asignacionAtributosUsuario(accion);
-//           uUsuario = u.getIdUsuario();
-//           uContraseña = u.getContraseña();
-//           datosArchivo = archivoServidor.lecturaArchivo(uUsuario+"&"+uContraseña+"&");
-//           if(datosArchivo.equalsIgnoreCase(uUsuario+"&"+uContraseña+"&")){
-//                log.info("El cliente con idSesion "+this.idSessio+" saluda");
-//                dos.writeUTF("aceptado");
-////               datosArchivo=datosArchivo+s.getFechaInicio()+"&";
-////               datosArchivo=datosArchivo+s.getHoraInicio()+"&";
-////               archivoServidor.escrituraArchivo(datosArchivo);
-//           }else{
-//               log.info("El cliente con idSesion "+this.idSessio+"no se encuentra en la base de datos"+ uUsuario+"&"+uContraseña+"&");
-//               dos.writeUTF("denegado");
-//           }
-//        } catch (Exception e) {
-//            log.info("hiloEjecucion:run");
-//           new ExcepcionFlujo(e);
-//        }
-//        try {
-//            desconnectar();
-//        } catch (Exception ex) {
-//            new ExcepcionFlujo(ex);
-//        }
+    }
+
+    public String verificaArreglo(String h)
+    {
+        String hilera[] = h.split("&");
+        return hilera[0];
     }
 
     public void update(Observable o, Object arg) {

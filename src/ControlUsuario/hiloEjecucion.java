@@ -6,14 +6,18 @@
 package ControlUsuario;
 
 import AccesoADatos.ImpleUsuario;
+import AccesoADatos.impleRegUsuario;
 import ControlExcepciones.ExcepcionFlujo;
+import Entidades.RegUsuario;
 import Entidades.Usuario;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 //import java.util.logging.*; buscar como utilizar 
@@ -29,14 +33,30 @@ public class hiloEjecucion extends Thread implements Observer{
     private DataInputStream dis;
     private int idSessio;
     private MensajeObserver mensaje;
+    private IpConectada conIp;
+    private String mostrar;
+    private boolean estaEnobservador = false;
+    private String numequi;
+    private String idUsuario;
+    private int numRegistros=0;
+    private boolean entro= true;
     private Logger log = Logger.getLogger(hiloEjecucion.class);
     // controla que el administrador este en la lista de observadores
     private int  controlChatAdmin=0;
+    private Semaphore sep;
+    private boolean entro11=true;
+    private ImpleUsuario is;
+    private impleRegUsuario regUsu;
 
-    public hiloEjecucion(Socket socket, int id, MensajeObserver mensaje) throws ExcepcionFlujo {
+    public hiloEjecucion(Socket socket, int id, MensajeObserver mensaje,IpConectada arrayIp,String mostrar, Semaphore sep) throws ExcepcionFlujo {
+        this.mostrar = mostrar;
+        this.conIp = arrayIp;
         this.socket = socket;
         this.idSessio = id;
         this.mensaje = mensaje;
+        this.sep = sep;
+        is = new ImpleUsuario();
+       
         try {
             dos = new DataOutputStream(socket.getOutputStream());
             dis = new DataInputStream(socket.getInputStream());
@@ -60,20 +80,96 @@ public class hiloEjecucion extends Thread implements Observer{
          String mensajeRecibido;
          boolean conectado = true;
          String verificador;
-      
-         mensaje.addObserver(this);
+//         String verificador1;
+//         boolean a=false;
+//         boolean b=false;
 
+         
+//         Datos d = conIp.buscarValor(mostrar);
+//         mensaje = d.getMensaje();
+//          mensaje.addObserver(this);
+         
         while (conectado) {
             try {
+               
                 // Lee un mensaje enviado por el cliente
                 mensajeRecibido = dis.readUTF();
-                verificador = verificaArreglo(mensajeRecibido);
 
-                if(verificador.equalsIgnoreCase("1"))
+              
+                System.out.println(sep.availablePermits()+"hilo esperando");
+//                try{
+//                sep.acquire();
+//                }catch(InterruptedException e)
+//                {
+//                    System.out.println(e.getMessage());
+//                }
+                 if(entro11)
+                {
+                for(int i=0;i<20;i++)
+                {
+                    int equipo = (i+1);
+                    if(mensajeRecibido.equalsIgnoreCase(""+equipo) && entro)
+                    {      
+                        mensaje = conIp.getLista().get(i).getMensaje();
+                        mensaje.addObserver(this);
+                        estaEnobservador = true;
+                        numequi = ""+equipo;
+                        entro=false;
+                        entro11 = true;
+                        System.out.println("se conecto el equipo "+ numequi);
+                        System.out.println("se conecto el equipo "+ mensaje.countObservers());
+                        if(mensaje.countObservers()==2)
+                        mensaje.setMensaje("inicioSesion");
+                    }
+                }
+               
+                    entro11 = false;
+                    continue;
+                }else
+                if(mensajeRecibido.equalsIgnoreCase("novisible"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("visible"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                }
+                else
+                if(mensajeRecibido.equalsIgnoreCase("abrirPortal"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else
+                if(mensajeRecibido.equalsIgnoreCase("cerrarPortal"))
+                {
+                     mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("oknovisible"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("okvisible"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("okabrirPortal"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("okcerrarPortal"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }
+                {}
+//               sep.release();
+//                verificador1 = verificaArreglo(mensajeRecibido);
+                verificador = verificaArreglo(mensajeRecibido);
+               System.out.println(verificador);
+                if(verificador.equalsIgnoreCase("1") && estaEnobservador)
                 {
                     String[] s = mensajeRecibido.split("&");
                     Usuario us;
-                    ImpleUsuario is = new ImpleUsuario();
                     us = is.obtener(s[1]);
                     if(us==null)
                     {
@@ -82,33 +178,60 @@ public class hiloEjecucion extends Thread implements Observer{
                     }else
                     {
                         log.info("encontro usuario especifico");
-                        dos.writeUTF(us.getIdUsuario()+"&"+us.getContraseña()+"&"+us.getPrimerNombre()+"&"+us.getPrimerApellido());
-                          // Se apunta a la lista de observadores de mensajes si existe en la
-                        // base de datos
-//                         mensaje.addObserver(this);
-                         System.out.println("estoy en el observador cliente");
-//                        mensaje.setMensaje(us.getIdUsuario()+"&"+us.getContraseña()+"&"+us.getPrimerNombre()+"&"+us.getPrimerApellido());
+                        idUsuario = us.getIdUsuario();
+                        mensaje.setMensaje(idUsuario+"&"+us.getContraseña()+"&"+us.getPrimerNombre()+"&"+us.getPrimerApellido());
+//  dos.writeUTF(us.getIdUsuario()+"&"+us.getContraseña()+"&"+us.getPrimerNombre()+"&"+us.getPrimerApellido());
                     }
-                }else if(verificador.equalsIgnoreCase("2"))
+                }else if(verificador.equalsIgnoreCase("2") && estaEnobservador)
                 {
                     // Pone el mensaje recibido en mensajes para que se notifique
                 // a sus observadores que hay un nuevo mensaje.
-                System.out.println("cliente desconenctado");
-                }else
+                System.out.println("cliente desconenctado"+numequi);
+                }else if(verificador.equalsIgnoreCase("3") && estaEnobservador)
                 {
-                    if(controlChatAdmin==0)
-                    {
-//                        mensaje.addObserver(this);
-                        controlChatAdmin=1;
-                    }
+                    numRegistros = numRegistros+1;
+                    log.info("debe enviar verificacion para asignar valores"+ numRegistros);
+                     regUsu = new impleRegUsuario();
+
+                    RegUsuario re = new RegUsuario();
+                    Calendar c1 =  Calendar.getInstance();
+                  
+                    re.setIdRegistro(""+numRegistros);
+                    
+                    re.setFrechaInicio((c1.get(Calendar.DATE)+1)+"/"+(c1.get((Calendar.MONTH))+1)+
+                "/"+c1.get(Calendar.YEAR)+"");
+                    re.setFechaFinal((c1.get(Calendar.DATE)+1)+"/"+(c1.get((Calendar.MONTH))+1)+
+                "/"+c1.get(Calendar.YEAR)+"");
+                    re.setEstado("ocupado");
+                    re.setIdComputadora(numequi);
+                    re.setIdUsuario(idUsuario);
+
+                      System.out.println(re.getIdRegistro()+"&"+re.getFrechaInicio()
+                +"&"+re.getFechaFinal()+"&"+re.getEstado()+"&"+re.getIdComputadora()
+                +"&"+re.getIdUsuario());
+
+
+                    regUsu.crearRegUsuario(re);
+                    mensaje.setMensaje("ok1038098");
+                    log.info("mensaje ok enviado");
+                }
+                else if(estaEnobservador)
+                {
                     System.out.println("admin envio mensajes a los observadores");
                     mensaje.setMensaje(mensajeRecibido);
                     System.out.println("mensajes enviados");
+                }else
+                {
+                    System.out.println("este hilo no fue asignado a un observador reinicie la cesion");
                 }
-                
+               
             } catch (Exception ex) {
                 log.info("Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.");
+                log.error(ex.getMessage());
+                mensaje.deleteObserver(this);
+                mensaje.setMensaje("desconectado");
                 conectado = false;
+                new ExcepcionFlujo(ex);
                 // Si se ha producido un error al recibir datos del cliente se cierra la conexion con el.
                 try {
                     dis.close();
@@ -118,6 +241,7 @@ public class hiloEjecucion extends Thread implements Observer{
                     new ExcepcionFlujo(ex2);
                 }
             }
+              
         }
     }
 

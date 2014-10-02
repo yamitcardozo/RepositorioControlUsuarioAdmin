@@ -6,6 +6,7 @@
 package ContenedorDeDatos;
 
 import ControlExcepciones.ExcepcionFlujo;
+import Entidades.RegUsuario;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +17,7 @@ import java.util.List;
 
 /**
  *
- * @author Administrator2
+ * @author Yamit Cardozo
  */
 public class DatosArchivo {
 
@@ -128,8 +129,18 @@ public class DatosArchivo {
          // una excepcion.
          try{                    
             if( null != fr ){   
-               fr.close();     
-            }                  
+               fr.close();
+               fr=null;
+            }
+            if(null != br)
+            {
+                br.close();
+                br=null;
+            }
+            if(archivo!=null)
+            {
+                archivo=null;
+            }
          }catch (Exception e2){ 
             //e2.printStackTrace();
            throw new ExcepcionFlujo(e2);
@@ -145,9 +156,11 @@ public class DatosArchivo {
 
         try
         {
+             System.out.println("guardar2"+dato);
             //fichero = new FileWriter("archivoControl.txt",true);
             fichero = new FileWriter(Archivo,true);
             pw = new PrintWriter(fichero);
+             System.out.println("guardar3"+dato);
 
                 pw.println(dato);
 
@@ -166,6 +179,121 @@ public class DatosArchivo {
            }
         }
     }
+
+         /**
+          *  editar un registro de algun archivo, para el registro especifico
+          * @param hilera
+          * @param Archivo
+          * @throws ControlExcepciones.ExcepcionFlujo
+          */
+  public void editarArchivoRegi(RegUsuario reg,String Archivo) throws ExcepcionFlujo
+  {
+              String linea;
+              String aux=null;
+              String h;
+              String subHilera[];
+              File fichero1;
+ try {
+         // Apertura del fichero y creacion de BufferedReader para poder
+         // hacer una lectura comoda (disponer del metodo readLine()).
+         //archivo = new File ("archivoServidor.txt");
+         archivo = new File (Archivo);
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+
+         // perteneciente al archivo1 auxiliar
+         fichero1 = new File("aux11.txt"); 
+         if(fichero1.createNewFile())
+         {
+             System.out.println("fichero1 creado correctamente");
+         }else
+         {
+             System.out.println("error en la creacion de fichero1");
+         }
+         fichero = new FileWriter(fichero1);
+         pw = new PrintWriter(fichero);
+ 
+
+
+         // Lectura y escritura de ficheros
+         while((linea=br.readLine())!=null){
+             
+             subHilera = linea.split("&");
+              h = subHilera[0];
+              if(h.equalsIgnoreCase(reg.getIdRegistro()))
+              {
+                  aux = reg.getIdRegistro()+"&"+reg.getFrechaInicio()+"&"+
+                          reg.getFechaFinal()+"&"+reg.getEstado()+"&"+
+                          reg.getIdComputadora()+"&"+reg.getIdUsuario();
+                 
+                  pw.println(aux);
+                  continue;
+              }
+              pw.println(linea);
+         }
+
+        //elimina archivo especifico principal para ser editado
+              if( null != fr ){
+               fr.close();
+              }
+              if( null != br ){
+               br.close();
+               }
+               if(archivo.delete()){
+              System.out.println("archivo eliminado"+archivo);
+               }else
+               {
+                    System.out.println("no eliminado");
+               }
+
+
+           // se crea una intancia de archivo en blanco y se cierra buffer de lectura de aux
+          pw.close();
+           archivo = new File("archivoControl.txt");
+        
+
+
+           // se renombre el fiche au por archivoControl
+            boolean renombrado=fichero1.renameTo(archivo);
+            if(renombrado)
+            {
+                System.out.println("renombrado correctamente");
+            }else
+            {
+                System.out.println("no renombrado");
+            }
+      }
+      catch(Exception e){
+         //e.printStackTrace();
+          throw new ExcepcionFlujo(e);
+      }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta
+         // una excepcion.
+         try{
+             // se cierra todo buffer o instancias abiertas
+             if(null!=pw){
+                 pw.close();
+             }
+
+              if (null != fichero)
+              fichero.close();
+
+            if( null != fr ){
+               fr.close();
+            }
+
+              if( null != br ){
+               br.close();
+            }
+
+         }catch (Exception e2){
+            //e2.printStackTrace();
+           throw new ExcepcionFlujo(e2);
+         }
+      }
+  }
 
 
 }

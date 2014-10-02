@@ -34,8 +34,10 @@ public class AdminChat extends JFrame {
     private int puerto;
     private String host;
     private String usuario;
+    private  JTextField tfMensaje;
+//    private int btn;
 
-    public AdminChat(){
+    public AdminChat(String numEquipo){
         super("Admin Chat");
 
          
@@ -46,7 +48,7 @@ public class AdminChat extends JFrame {
         mensajesChat.setLineWrap(true); // Las lineas se parten al llegar al ancho del textArea
         mensajesChat.setWrapStyleWord(true); // Las lineas se parten entre palabras (por los espacios blancos)
         JScrollPane scrollMensajesChat = new JScrollPane(mensajesChat);
-        JTextField tfMensaje = new JTextField("");
+        tfMensaje = new JTextField("");
         JButton btEnviar = new JButton("Enviar");
 
 
@@ -105,64 +107,42 @@ public class AdminChat extends JFrame {
         }
 
 //         Accion para el boton enviar
-        btEnviar.addActionListener(new ConexionServidor(socket, tfMensaje, usuario));
+        System.out.println("inicio conexion servidor");
+        btEnviar.addActionListener(new ConexionServidor(socket, tfMensaje, usuario,numEquipo));
+         System.out.println("sale conexion servidor");
           
 
     }
 
-//    public void visible()
-//    {
-//        this.setVisible(true);
-//        vc.visible();
-//    }
-//    public void capturarDatos()
-//    {
-//        host = vc.getHost();
-//        puerto = vc.getPuerto();
-//        usuario = vc.getUsuario();
-//
-//        log.info("Quieres conectarte a " + host + " en el puerto " + puerto + " con el nombre de ususario: " + usuario + ".");
-//    }
-//    public void  iniciacionSocket()
-//    {
-//         try {
-//            socket = new Socket(host, puerto);
-//        } catch (UnknownHostException ex) {
-//            log.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
-//        } catch (IOException ex) {
-//            log.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
-//        }
-//          btEnviar.addActionListener(new ConexionServidor(socket, tfMensaje, usuario));
-//    }
     /**
      * Recibe los mensajes del chat reenviados por el servidor
      */
-    public  void recibirMensajesServidor(){
-        // Obtiene el flujo de entrada del socket
-        DataInputStream entradaDatos = null;
-        String mensaje;
-        try {
-            entradaDatos = new DataInputStream(socket.getInputStream());
-        } catch (IOException ex) {
-            log.error("Error al crear el stream de entrada: " + ex.getMessage());
-        } catch (NullPointerException ex) {
-            log.error("El socket no se creo correctamente. ");
-        }
-
-        // Bucle infinito que recibe mensajes del servidor
-        boolean conectado = true;
-        while (conectado) {
-            try {
-                mensaje = entradaDatos.readUTF();
-                mensajesChat.append(mensaje + "\n");
-            } catch (IOException ex) {
-                log.error("Error al leer del stream de entrada: " + ex.getMessage());
-                conectado = false;
-            } catch (NullPointerException ex) {
-                log.error("El socket no se creo correctamente. ");
-                conectado = false;
-            }
-        }
-    }
+//    public  void recibirMensajesServidor(){
+//        // Obtiene el flujo de entrada del socket
+//        DataInputStream entradaDatos = null;
+//        String mensaje;
+//        try {
+//            entradaDatos = new DataInputStream(socket.getInputStream());
+//        } catch (IOException ex) {
+//            log.error("Error al crear el stream de entrada: " + ex.getMessage());
+//        } catch (NullPointerException ex) {
+//            log.error("El socket no se creo correctamente. ");
+//        }
+//
+//        // Bucle infinito que recibe mensajes del servidor
+//        boolean conectado = true;
+//        while (conectado) {
+//            try {
+//                mensaje = entradaDatos.readUTF();
+//                mensajesChat.append(mensaje + "\n");
+//            } catch (IOException ex) {
+//                log.error("Error al leer del stream de entrada: " + ex.getMessage());
+//                conectado = false;
+//            } catch (NullPointerException ex) {
+//                log.error("El socket no se creo correctamente. ");
+//                conectado = false;
+//            }
+//        }
+//    }
 
 }

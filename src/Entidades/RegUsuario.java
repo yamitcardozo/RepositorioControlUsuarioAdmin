@@ -23,29 +23,29 @@ public class RegUsuario {
     /**
      *  fecha de inicio prestamo de computadora
      */
-    private Date frechaInicio;
+    private String frechaInicio;
     /**
      * fecha fianl del prestamo de computadora
      */
-    private Date fechaFinal;
+    private String fechaFinal;
     /**
-     *  estado del registro ocupado,libre,pendiente para prestamo
+     *  estado del registro abierto, cerrado.
      */
     private String estado;
     /**
      * referencia al id de la computadora en preoceso
      */
-    private Computadora idComputadora;
+    private String idComputadora;
     /**
      *  referencia a nombre de usuario asignado al cual se le realiza el prestamo
      */
-    private Usuario nombreUsuario;
+    private String idUsuario;
 
     /**
      * retorna id de la computadora prestada
      * @return
      */
-    public Computadora getIdComputadora() {
+    public String getIdComputadora() {
         return idComputadora;
     }
 
@@ -53,7 +53,7 @@ public class RegUsuario {
      *  asiga id de computadora a prestar
      * @param idComputadora
      */
-    public void setIdComputadora(Computadora idComputadora) {
+    public void setIdComputadora(String idComputadora) {
         this.idComputadora = idComputadora;
     }
     /**
@@ -73,26 +73,10 @@ public class RegUsuario {
     }
 
     /**
-     * retorna el nombre del usuario que hace el prestamo
-     * @return
-     */
-    public Usuario getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    /**
-     * asigan el nombre del usuario a prestar computadora
-     * @param nombreUsuario
-     */
-    public void setNombreUsuario(Usuario nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    /**
      * retorna la fecha final para terminar  prestamo
      * @return
      */
-    public Date getFechaFinal() {
+    public String getFechaFinal() {
         return fechaFinal;
     }
 
@@ -100,7 +84,7 @@ public class RegUsuario {
      *  asigna fecha final terminar prestamo
      * @param fechaFinal
      */
-    public void setFechaFinal(Date fechaFinal) {
+    public void setFechaFinal(String fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
 
@@ -108,7 +92,7 @@ public class RegUsuario {
      *  retorna fecha inicial para hacer un prestamo
      * @return
      */
-    public Date getFrechaInicio() {
+    public String getFrechaInicio() {
         return frechaInicio;
     }
 
@@ -116,7 +100,7 @@ public class RegUsuario {
      * asigna fecha inicial para hacer un prestamo
      * @param frechaInicio
      */
-    public void setFrechaInicio(Date frechaInicio) {
+    public void setFrechaInicio(String frechaInicio) {
         this.frechaInicio = frechaInicio;
     }
 
@@ -140,15 +124,15 @@ public class RegUsuario {
      * retorna un usuario que hace prestamo
      * @return
      */
-    public Usuario getIdUsuario() {
-        return nombreUsuario;
+    public String getIdUsuario() {
+        return idUsuario;
     }
 
     /**
      * asiga un usuario que hace prestamo
      * @param idUsuario
      */
-    public void setIdUsuario(Usuario idUsuario) {
-        this.nombreUsuario = idUsuario;
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

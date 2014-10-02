@@ -8,6 +8,9 @@ package PruebasTest;
 import ContenedorDeDatos.DatosArchivo;
 import ControlExcepciones.ExcepcionFlujo;
 import ControlUsuario.userServicio;
+import Entidades.RegUsuario;
+import java.util.Calendar;
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -69,5 +72,41 @@ public class PruebasProyectoAdmin {
         String dato = a.lecturaArchivoid("1038098543", "archivoServidor.txt");
         assertEquals("1038098543&joselo&yamit&cardozo&yamit.cardozo", dato);
     }
-
+    @Test
+    public void crearRegistro() throws ExcepcionFlujo
+    {
+        DatosArchivo a = new DatosArchivo();
+        RegUsuario re = new RegUsuario();
+        Calendar c1 =  Calendar.getInstance();
+        re.setIdRegistro("2");
+        re.setFrechaInicio((c1.get(Calendar.DATE)+1)+"/"+(c1.get((Calendar.MONTH))+1)+
+                "/"+c1.get(Calendar.YEAR)+"");
+        re.setFechaFinal(c1.get(Calendar.DATE)+"/"+(c1.get((Calendar.MONTH))+1)+
+                "/"+c1.get(Calendar.YEAR)+"");
+        re.setEstado("ocupado");
+        re.setIdComputadora("1");
+        re.setIdUsuario("1234");
+          String hilera = re.getIdRegistro()+"&"+re.getFrechaInicio()+"&"+
+                  re.getFechaFinal()+"&"+re.getEstado()+"&"+re.getIdComputadora()+
+                  "&"+re.getIdUsuario();
+        a.escrituraArchivo(hilera, "archivoControl.txt");
+        System.out.println("OK");
+    }
+    @Test
+    public void editarArchivo() throws ExcepcionFlujo
+    {
+        DatosArchivo a = new DatosArchivo();
+        RegUsuario re = new RegUsuario();
+        Calendar c1 =  Calendar.getInstance();
+        re.setIdRegistro("1");
+        re.setFrechaInicio((c1.get(Calendar.DATE)+1)+"/"+(c1.get((Calendar.MONTH))+1)+
+                "/"+c1.get(Calendar.YEAR)+"");
+        re.setFechaFinal(c1.get(Calendar.DATE)+"/"+(c1.get((Calendar.MONTH))+1)+
+                "/"+c1.get(Calendar.YEAR)+"");
+        re.setEstado("ocupado");
+        re.setIdComputadora("1");
+        re.setIdUsuario("1234");
+        a.editarArchivoRegi(re, "archivoControl.txt");
+        System.out.println("OK");
+    }
 }

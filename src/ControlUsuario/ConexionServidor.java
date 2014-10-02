@@ -24,11 +24,13 @@ public class ConexionServidor implements ActionListener {
     private JTextField tfMensaje;
     private String usuario;
     private DataOutputStream salidaDatos;
+    private String numEquipo;
 
-    public ConexionServidor(Socket socket, JTextField tfMensaje, String usuario) {
+    public ConexionServidor(Socket socket, JTextField tfMensaje, String usuario,String numEquipo) {
         this.socket = socket;
         this.tfMensaje = tfMensaje;
         this.usuario = usuario;
+        this.numEquipo = numEquipo;
         try {
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());
         } catch (IOException ex) {
@@ -39,10 +41,12 @@ public class ConexionServidor implements ActionListener {
 
     }
 
-    @Override
+  
+
+//    @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            salidaDatos.writeUTF(usuario + ": " + tfMensaje.getText() );
+            salidaDatos.writeUTF(numEquipo+"&"+usuario + ": " + tfMensaje.getText() );
             tfMensaje.setText("");
         } catch (IOException ex) {
             log.error("Error al intentar enviar un mensaje: " + ex.getMessage());

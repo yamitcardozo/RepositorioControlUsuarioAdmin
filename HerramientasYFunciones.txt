@@ -60,3 +60,6 @@ se que utilizar el hilo de segundo plano que maneja el main de java, para poder
 esperar tener que presionar el boton para poder crear la ventana de
 chat para el administrador, esta ventana de chat esta predispuesta para
 comunicacion bidireccional.
+
+aprendizaje : pensar primero en las consideraciones adecuadas para no perder tiempo,
+haciendo trabajos innecesarios, el metodo main solo atiende un hilo de cierta forma.

@@ -48,7 +48,7 @@ public class VentanaConfiguracion extends JDialog{
         JButton btAceptar = new JButton("Aceptar");
         btAceptar.addActionListener(new ActionListener() {
 
-            @Override
+//            @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
             }

@@ -3,8 +3,10 @@
  * and open the template in the editor.
  */
 
-package ControlUsuario;
+package ControlServidor;
 
+import ControlUsuario.*;
+import ControlServidor.Datos;
 import java.util.ArrayList;
 
 /**
@@ -69,34 +71,4 @@ public class IpConectada {
        }
        return false;
    }
-
-
-}
-    class Datos
-{
-    private MensajeObserver mensaje;
-    private String ip;
-
-    public Datos(MensajeObserver m, String ip)
-    {
-       this.mensaje = m;
-       this.ip = ip;
-    }
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public MensajeObserver getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(MensajeObserver mensaje) {
-        this.mensaje = mensaje;
-    }
-    
-    
 }

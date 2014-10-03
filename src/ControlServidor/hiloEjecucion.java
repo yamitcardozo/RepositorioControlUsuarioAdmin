@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ControlUsuario;
+package ControlServidor;
 
 import AccesoADatos.ImpleUsuario;
 import AccesoADatos.impleRegUsuario;
@@ -12,13 +12,12 @@ import Entidades.RegUsuario;
 import Entidades.Usuario;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 //import java.util.logging.*; buscar como utilizar 
 
@@ -34,7 +33,7 @@ public class hiloEjecucion extends Thread implements Observer{
     private int idSessio;
     private MensajeObserver mensaje;
     private IpConectada conIp;
-    private String mostrar;
+    private String equipoUsuario;
     private boolean estaEnobservador = false;
     private String numequi;
     private String idUsuario;
@@ -45,11 +44,12 @@ public class hiloEjecucion extends Thread implements Observer{
     private int  controlChatAdmin=0;
     private Semaphore sep;
     private boolean entro11=true;
+    private boolean entro1Usuario=true;
     private ImpleUsuario is;
     private impleRegUsuario regUsu;
 
-    public hiloEjecucion(Socket socket, int id, MensajeObserver mensaje,IpConectada arrayIp,String mostrar, Semaphore sep) throws ExcepcionFlujo {
-        this.mostrar = mostrar;
+    public hiloEjecucion(Socket socket, int id, MensajeObserver mensaje,IpConectada arrayIp,String equipoUsuario, Semaphore sep) throws ExcepcionFlujo {
+        this.equipoUsuario = equipoUsuario;
         this.conIp = arrayIp;
         this.socket = socket;
         this.idSessio = id;
@@ -88,6 +88,37 @@ public class hiloEjecucion extends Thread implements Observer{
 //         Datos d = conIp.buscarValor(mostrar);
 //         mensaje = d.getMensaje();
 //          mensaje.addObserver(this);
+
+         // esto hay que ponerlo
+//         if("datoseEncontroEnLaLista".equalsIgnoreCase(equipoUsuario))
+//         {
+//              entro1Usuario = false;
+//         }else
+//         {
+//             entro11 = false;
+//         }
+//
+//         if(entro1Usuario)
+//                {
+//                   for(int i=0;i<20;i++)
+//                {
+//                    int equipo = (i+1);
+//                    System.out.println(equipoUsuario + "  numerode equipos");
+//                    if(equipoUsuario.equalsIgnoreCase(""+equipo) && entro)
+//                    {
+//                        mensaje = conIp.getLista().get(i).getMensaje();
+//                        mensaje.addObserver(this);
+//                        estaEnobservador = true;
+//                        numequi = ""+equipo;
+//                        entro=false;
+//                        entro11 = true;
+//                        System.out.println("se conecto el equipoUsuario "+ numequi);
+//                        System.out.println("se conecto el equipoUsuario cantidad "+ mensaje.countObservers());
+//                        if(mensaje.countObservers()==2)
+//                        mensaje.setMensaje("inicioSesion");
+//                    }
+//                }
+//                }
          
         while (conectado) {
             try {
@@ -103,6 +134,7 @@ public class hiloEjecucion extends Thread implements Observer{
 //                {
 //                    System.out.println(e.getMessage());
 //                }
+                
                  if(entro11)
                 {
                 for(int i=0;i<20;i++)
@@ -122,9 +154,8 @@ public class hiloEjecucion extends Thread implements Observer{
                         mensaje.setMensaje("inicioSesion");
                     }
                 }
-               
-                    entro11 = false;
-                    continue;
+                entro11=false;
+                continue;
                 }else
                 if(mensajeRecibido.equalsIgnoreCase("novisible"))
                 {
@@ -161,13 +192,14 @@ public class hiloEjecucion extends Thread implements Observer{
                     mensaje.setMensaje(mensajeRecibido);
                     continue;
                 }
-                {}
+                
 //               sep.release();
 //                verificador1 = verificaArreglo(mensajeRecibido);
                 verificador = verificaArreglo(mensajeRecibido);
-               System.out.println(verificador);
+               System.out.println(verificador+"   entro este mensaje");
                 if(verificador.equalsIgnoreCase("1") && estaEnobservador)
                 {
+                           System.out.println(verificador+"   entro este mensaje mal");
                     String[] s = mensajeRecibido.split("&");
                     Usuario us;
                     us = is.obtener(s[1]);
@@ -224,15 +256,18 @@ public class hiloEjecucion extends Thread implements Observer{
                 {
                     System.out.println("este hilo no fue asignado a un observador reinicie la cesion");
                 }
-               
-            } catch (Exception ex) {
+            }catch(IOException e)
+            {
                 log.info("Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.");
-                log.error(ex.getMessage());
+                log.error(e.getMessage());
                 mensaje.deleteObserver(this);
                 mensaje.setMensaje("desconectado");
                 conectado = false;
-                new ExcepcionFlujo(ex);
+                 new ExcepcionFlujo(e);
+            }
+            catch (Exception ex) {         
                 // Si se ha producido un error al recibir datos del cliente se cierra la conexion con el.
+                System.out.println("otra dificultad");
                 try {
                     dis.close();
                     dos.close();

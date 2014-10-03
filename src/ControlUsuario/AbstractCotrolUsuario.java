@@ -38,7 +38,7 @@ public  class AbstractCotrolUsuario {
     {
         equipo = new JLabel("equipo NA");
         nombre = new JLabel("nombre NAuno");
-        estado = new JLabel("disponible");
+        estado = new JLabel("------");
         boton = new JButton("inviar");
 //        boton.setEnabled(false);
     }

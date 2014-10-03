@@ -9,7 +9,7 @@ package AccesoADatos;
 import ContenedorDeDatos.DatosArchivo;
 import ControlExcepciones.ExcepcionFlujo;
 //import ControlUsuario.DatosArchivo;
-import ControlUsuario.userServicio;
+import ControlServidor.userServicio;
 import Entidades.RegUsuario;
 import LogicaDeNegocio.InterfazRegUsuario;
 import java.io.DataInputStream;

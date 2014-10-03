@@ -1,0 +1,2 @@
+ControlUsuario.IpConectada
+ControlUsuario.Datos

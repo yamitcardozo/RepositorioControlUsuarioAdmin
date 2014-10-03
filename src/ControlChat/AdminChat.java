@@ -3,13 +3,12 @@
  * and open the template in the editor.
  */
 
-package ControlUsuario;
+package ControlChat;
 
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -19,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  *

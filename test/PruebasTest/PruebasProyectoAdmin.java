@@ -7,7 +7,7 @@ package PruebasTest;
 
 import ContenedorDeDatos.DatosArchivo;
 import ControlExcepciones.ExcepcionFlujo;
-import ControlUsuario.userServicio;
+import ControlServidor.userServicio;
 import Entidades.RegUsuario;
 import java.util.Calendar;
 import java.util.Date;

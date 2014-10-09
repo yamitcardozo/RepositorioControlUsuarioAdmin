@@ -35,7 +35,7 @@ public class ConectorServer {
         DatosArchivo operadorArchivo;
 
         IpConectada arrayIp = new IpConectada();
-        for(int i=0;i<20;i++)
+        for(int i=0;i<28;i++)
         {
             arrayIp.addLista(new MensajeObserver(), ""+i);
         }

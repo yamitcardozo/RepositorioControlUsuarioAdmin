@@ -5,6 +5,7 @@
 
 package ControlChat;
 
+import ControlUsuario.ClienteChat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
@@ -25,32 +26,20 @@ public class ConexionServidor implements ActionListener {
     private String usuario;
     private DataOutputStream salidaDatos;
     private String numEquipo;
+    private ClienteChat cli;
 
-    public ConexionServidor(Socket socket, JTextField tfMensaje, String usuario,String numEquipo) {
-        this.socket = socket;
+    public ConexionServidor(JTextField tfMensaje, String usuario,String numEquipo,ClienteChat cli) {
         this.tfMensaje = tfMensaje;
         this.usuario = usuario;
         this.numEquipo = numEquipo;
-        try {
-            this.salidaDatos = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException ex) {
-            log.error("Error al crear el stream de salida : " + ex.getMessage());
-        } catch (NullPointerException ex) {
-            log.error("El socket no se creo correctamente. ");
-        }
-
+        this.cli = cli;
     }
 
   
 
 //    @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            salidaDatos.writeUTF(numEquipo+"&"+usuario + ": " + tfMensaje.getText() );
+            cli.enviarMensajeChat(numEquipo+ ": " + tfMensaje.getText());
             tfMensaje.setText("");
-        } catch (IOException ex) {
-            log.error("Error al intentar enviar un mensaje: " + ex.getMessage());
-        }
-    }
-
+}
 }

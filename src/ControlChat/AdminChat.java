@@ -5,6 +5,7 @@
 
 package ControlChat;
 
+import ControlUsuario.ClienteChat;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,8 +22,131 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author Elelegido
+ * @author Yamit Cardozo
  */
+//public class AdminChat extends JFrame {
+//
+//    private Logger log = Logger.getLogger(AdminChat.class);
+//    private JTextArea mensajesChat;
+//    private Socket socket;
+//
+//    private int puerto;
+//    private String host;
+//    private String usuario;
+//    private  JTextField tfMensaje;
+////    private int btn;
+//
+//    public AdminChat(String numEquipo){
+//        super("Admin Chat");
+//
+//
+//
+//        // Elementos de la ventana
+//        mensajesChat = new JTextArea();
+//        mensajesChat.setEnabled(false); // El area de mensajes del chat no se debe de poder editar
+//        mensajesChat.setLineWrap(true); // Las lineas se parten al llegar al ancho del textArea
+//        mensajesChat.setWrapStyleWord(true); // Las lineas se parten entre palabras (por los espacios blancos)
+//        JScrollPane scrollMensajesChat = new JScrollPane(mensajesChat);
+//        tfMensaje = new JTextField("");
+//        JButton btEnviar = new JButton("Enviar");
+//
+//
+//        // Colocacion de los componentes en la ventana
+//        Container c = this.getContentPane();
+//        c.setLayout(new GridBagLayout());
+//
+//        GridBagConstraints gbc = new GridBagConstraints();
+//
+//        gbc.insets = new Insets(20, 20, 20, 20);
+//
+//        gbc.gridx = 0;
+//        gbc.gridy = 0;
+//        gbc.gridwidth = 2;
+//        gbc.weightx = 1;
+//        gbc.weighty = 1;
+//        gbc.fill = GridBagConstraints.BOTH;
+//        c.add(scrollMensajesChat, gbc);
+//        // Restaura valores por defecto
+//        gbc.gridwidth = 1;
+//        gbc.weighty = 0;
+//
+//        gbc.fill = GridBagConstraints.HORIZONTAL;
+//        gbc.insets = new Insets(0, 20, 20, 20);
+//
+//        gbc.gridx = 0;
+//        gbc.gridy = 1;
+//        c.add(tfMensaje, gbc);
+//        // Restaura valores por defecto
+//        gbc.weightx = 0;
+//
+//        gbc.gridx = 1;
+//        gbc.gridy = 1;
+//        c.add(btEnviar, gbc);
+//
+//        this.setBounds(400, 100, 400, 500);
+//        this.setVisible(true);
+//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        // Ventana de configuracion inicial
+//         VentanaConfiguracion vc = new VentanaConfiguracion(this);
+//
+//        host = vc.getHost();
+//        puerto = vc.getPuerto();
+//        usuario = vc.getUsuario();
+//
+//        log.info("Quieres conectarte a " + host + " en el puerto " + puerto + " con el nombre de ususario: " + usuario + ".");
+//
+////         Se crea el socket para conectar con el Sevidor del Chat
+//        try {
+//            socket = new Socket(host, puerto);
+//        } catch (UnknownHostException ex) {
+//            log.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
+//        } catch (IOException ex) {
+//            log.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
+//        }
+//
+////         Accion para el boton enviar
+//        System.out.println("inicio conexion servidor");
+//        btEnviar.addActionListener(new ConexionServidor(socket, tfMensaje, usuario,numEquipo));
+//        System.out.println("sale conexion servidor");
+//
+//
+//    }
+//
+//    /**
+//     * Recibe los mensajes del chat reenviados por el servidor
+//     */
+////    public  void recibirMensajesServidor(){
+////        // Obtiene el flujo de entrada del socket
+////        DataInputStream entradaDatos = null;
+////        String mensaje;
+////        try {
+////            entradaDatos = new DataInputStream(socket.getInputStream());
+////        } catch (IOException ex) {
+////            log.error("Error al crear el stream de entrada: " + ex.getMessage());
+////        } catch (NullPointerException ex) {
+////            log.error("El socket no se creo correctamente. ");
+////        }
+////
+////        // Bucle infinito que recibe mensajes del servidor
+////        boolean conectado = true;
+////        while (conectado) {
+////            try {
+////                mensaje = entradaDatos.readUTF();
+////                mensajesChat.append(mensaje + "\n");
+////            } catch (IOException ex) {
+////                log.error("Error al leer del stream de entrada: " + ex.getMessage());
+////                conectado = false;
+////            } catch (NullPointerException ex) {
+////                log.error("El socket no se creo correctamente. ");
+////                conectado = false;
+////            }
+////        }
+////    }
+//
+//}
+
+
 public class AdminChat extends JFrame {
 
     private Logger log = Logger.getLogger(AdminChat.class);
@@ -33,14 +157,14 @@ public class AdminChat extends JFrame {
     private String host;
     private String usuario;
     private  JTextField tfMensaje;
-//    private int btn;
+    private int btn;
 
-    public AdminChat(String numEquipo){
+    public AdminChat(String numEquipo,ClienteChat cli){
         super("Admin Chat");
 
-         
 
-        // Elementos de la ventana
+
+         //Elementos de la ventana
         mensajesChat = new JTextArea();
         mensajesChat.setEnabled(false); // El area de mensajes del chat no se debe de poder editar
         mensajesChat.setLineWrap(true); // Las lineas se parten al llegar al ancho del textArea
@@ -50,7 +174,7 @@ public class AdminChat extends JFrame {
         JButton btEnviar = new JButton("Enviar");
 
 
-        // Colocacion de los componentes en la ventana
+         //Colocacion de los componentes en la ventana
         Container c = this.getContentPane();
         c.setLayout(new GridBagLayout());
 
@@ -65,7 +189,7 @@ public class AdminChat extends JFrame {
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
         c.add(scrollMensajesChat, gbc);
-        // Restaura valores por defecto
+         //Restaura valores por defecto
         gbc.gridwidth = 1;
         gbc.weighty = 0;
 
@@ -75,7 +199,7 @@ public class AdminChat extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         c.add(tfMensaje, gbc);
-        // Restaura valores por defecto
+         //Restaura valores por defecto
         gbc.weightx = 0;
 
         gbc.gridx = 1;
@@ -83,64 +207,33 @@ public class AdminChat extends JFrame {
         c.add(btEnviar, gbc);
 
         this.setBounds(400, 100, 400, 500);
-        this.setVisible(true);
+//        this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Ventana de configuracion inicial
-         VentanaConfiguracion vc = new VentanaConfiguracion(this);
+         //Ventana de configuracion inicial
+         //VentanaConfiguracion vc = new VentanaConfiguracion(this);
 
-        host = vc.getHost();
-        puerto = vc.getPuerto();
-        usuario = vc.getUsuario();
+        //host = vc.getHost();
+        //puerto = vc.getPuerto();
+        //usuario = vc.getUsuario();
 
-        log.info("Quieres conectarte a " + host + " en el puerto " + puerto + " con el nombre de ususario: " + usuario + ".");
-
-//         Se crea el socket para conectar con el Sevidor del Chat
-        try {
-            socket = new Socket(host, puerto);
-        } catch (UnknownHostException ex) {
-            log.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
-        } catch (IOException ex) {
-            log.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
-        }
-
-//         Accion para el boton enviar
-        System.out.println("inicio conexion servidor");
-        btEnviar.addActionListener(new ConexionServidor(socket, tfMensaje, usuario,numEquipo));
-         System.out.println("sale conexion servidor");
-          
-
+        // Accion para el boton enviar
+        btEnviar.addActionListener(new ConexionServidor(tfMensaje, usuario,numEquipo,cli));
     }
-
-    /**
-     * Recibe los mensajes del chat reenviados por el servidor
-     */
-//    public  void recibirMensajesServidor(){
-//        // Obtiene el flujo de entrada del socket
-//        DataInputStream entradaDatos = null;
-//        String mensaje;
-//        try {
-//            entradaDatos = new DataInputStream(socket.getInputStream());
-//        } catch (IOException ex) {
-//            log.error("Error al crear el stream de entrada: " + ex.getMessage());
-//        } catch (NullPointerException ex) {
-//            log.error("El socket no se creo correctamente. ");
-//        }
-//
-//        // Bucle infinito que recibe mensajes del servidor
-//        boolean conectado = true;
-//        while (conectado) {
-//            try {
-//                mensaje = entradaDatos.readUTF();
-//                mensajesChat.append(mensaje + "\n");
-//            } catch (IOException ex) {
-//                log.error("Error al leer del stream de entrada: " + ex.getMessage());
-//                conectado = false;
-//            } catch (NullPointerException ex) {
-//                log.error("El socket no se creo correctamente. ");
-//                conectado = false;
-//            }
-//        }
-//    }
-
+    public void escribirMensaje(String mensaje)
+    {
+          mensajesChat.append(mensaje + "\n");
+    }
+    public boolean esVisible()
+    {
+        return this.isVisible();
+    }
+    public void Novisible()
+    {
+        this.setVisible(false);
+    }
+     public void visible()
+    {
+        this.setVisible(true);
+    }
 }

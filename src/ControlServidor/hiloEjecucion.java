@@ -47,6 +47,7 @@ public class hiloEjecucion extends Thread implements Observer{
     private boolean entro1Usuario=true;
     private ImpleUsuario is;
     private impleRegUsuario regUsu;
+    private boolean chat;
 
     public hiloEjecucion(Socket socket, int id, MensajeObserver mensaje,IpConectada arrayIp,String equipoUsuario, Semaphore sep) throws ExcepcionFlujo {
         this.equipoUsuario = equipoUsuario;
@@ -89,7 +90,7 @@ public class hiloEjecucion extends Thread implements Observer{
 //         mensaje = d.getMensaje();
 //          mensaje.addObserver(this);
 
-         // esto hay que ponerlo
+//          esto hay que ponerlo
 //         if("datoseEncontroEnLaLista".equalsIgnoreCase(equipoUsuario))
 //         {
 //              entro1Usuario = false;
@@ -100,7 +101,7 @@ public class hiloEjecucion extends Thread implements Observer{
 //
 //         if(entro1Usuario)
 //                {
-//                   for(int i=0;i<20;i++)
+//                   for(int i=0;i<28;i++)
 //                {
 //                    int equipo = (i+1);
 //                    System.out.println(equipoUsuario + "  numerode equipos");
@@ -111,13 +112,13 @@ public class hiloEjecucion extends Thread implements Observer{
 //                        estaEnobservador = true;
 //                        numequi = ""+equipo;
 //                        entro=false;
-//                        entro11 = true;
 //                        System.out.println("se conecto el equipoUsuario "+ numequi);
 //                        System.out.println("se conecto el equipoUsuario cantidad "+ mensaje.countObservers());
 //                        if(mensaje.countObservers()==2)
 //                        mensaje.setMensaje("inicioSesion");
 //                    }
 //                }
+//                   entro1Usuario = false;
 //                }
          
         while (conectado) {
@@ -137,7 +138,7 @@ public class hiloEjecucion extends Thread implements Observer{
                 
                  if(entro11)
                 {
-                for(int i=0;i<20;i++)
+                for(int i=0;i<28;i++)
                 {
                     int equipo = (i+1);
                     if(mensajeRecibido.equalsIgnoreCase(""+equipo) && entro)
@@ -188,6 +189,18 @@ public class hiloEjecucion extends Thread implements Observer{
                     mensaje.setMensaje(mensajeRecibido);
                     continue;
                 }else if(mensajeRecibido.equalsIgnoreCase("okcerrarPortal"))
+                {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("chat"))
+                {
+                    mensaje.setMensaje("okchat");
+                    chat = true;
+                    continue;
+                }else if(mensajeRecibido.equalsIgnoreCase("apagar")) {
+                    mensaje.setMensaje(mensajeRecibido);
+                    continue;
+                } else if(chat = true)
                 {
                     mensaje.setMensaje(mensajeRecibido);
                     continue;

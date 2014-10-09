@@ -5,9 +5,11 @@
 
 package ControlUsuario;
 
+import ControlChat.AdminChat;
 import ControlExcepciones.ExcepcionFlujo;
 import ControlServidor.userServicio;
 import Entidades.Usuario;
+import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,6 +27,9 @@ public class ClienteChat extends Thread
                private Socket socket=null;
                Usuario u;
                AbstractCotrolUsuario a;
+               private boolean chat = false;
+               private String mensajeChat;
+               private AdminChat adm;
 
                public ClienteChat(String numero, AbstractCotrolUsuario a) throws IOException
                {
@@ -38,6 +43,7 @@ public class ClienteChat extends Thread
 
                             log.info(" constructor ClienteChat asignacion de IP");
 
+//                            socket = new Socket("192.168.37.149", 10578);
 //                        socket = new Socket("192.168.37.145", 10578);
                          socket = new Socket("localhost", 10578);
 
@@ -57,6 +63,15 @@ public class ClienteChat extends Thread
                 }
 
                }
+
+                 public AdminChat getAdm() {
+        return adm;
+    }
+
+    public void setAdm(AdminChat adm) {
+        this.adm = adm;
+        adm.visible();
+    }
 
             /**
                  * se inicia el hilo adminUsuario para enviar mensaje de registro a servidor
@@ -104,12 +119,24 @@ public class ClienteChat extends Thread
                     }
                     }
                 }
+                public void enviarMensajeChat(String mensaje)
+                {
+                    mensajeChat = mensaje;
+                    DataOutputStream dos=null;
+                     try {
+                        dos = new DataOutputStream(socket.getOutputStream());
+                        dos.writeUTF("chat");
+                    } catch (IOException ex) {
+                       System.out.println("conexion mala metodo enviarMensajeChat de la clase clienteChat");
+                    }
+                }
                 /**
                  *  se cambia estado de disponible, a ocupado
                  * @return
                  */
                 public String estadoRegistro()
                 {
+                      
                     return a.getEstado().getText();
                 }
                 /**
@@ -143,7 +170,6 @@ public class ClienteChat extends Thread
                         try {
                             mensaje = entradaDatos.readUTF();
 
-
                             if(mensaje.equalsIgnoreCase("inicioSesion"))
                             {
 
@@ -152,6 +178,10 @@ public class ClienteChat extends Thread
                                  if(mensaje.equalsIgnoreCase("novisible"))
                                  {
                                       a.getEstado().setText("ocupado");
+                                      a.getPanel().setBackground(Color.red);
+                                       // se activa boton enviar mensaje
+                                     a.getBotonMensaje().setEnabled(true);
+                                     
                                        dos.writeUTF("oknovisible");
                                       continue;
                                  }
@@ -159,6 +189,9 @@ public class ClienteChat extends Thread
                                 if(mensaje.equalsIgnoreCase("visible"))
                                 {
                                      a.getEstado().setText("disponible");
+                                     a.getPanel().setBackground(Color.GREEN);
+                                    // se desactiva boton enviar mensaje
+                                 a.getBotonMensaje().setEnabled(false);
                                        dos.writeUTF("okvisible");
                                       continue;
                                 }
@@ -173,11 +206,18 @@ public class ClienteChat extends Thread
                             }else if(mensaje.equalsIgnoreCase("okabrirPortal"))
                             {
                                 a.getEstado().setText("ocupado");
+                                 a.getPanel().setBackground(Color.red);
+                                  // se activa boton enviar mensaje
+                                     a.getBotonMensaje().setEnabled(true);
+                                 
 //                                a.getBoton().setEnabled(true);
                                 continue;
                             }else if(mensaje.equalsIgnoreCase("okcerrarPortal"))
                             {
                                  a.getEstado().setText("disponible");
+                                 a.getPanel().setBackground(Color.green);
+                                 // se desactiva boton enviar mensaje
+                                 a.getBotonMensaje().setEnabled(false);
 //                                a.getBoton().setEnabled(true);
                                 continue;
                             }
@@ -185,6 +225,20 @@ public class ClienteChat extends Thread
                             {
 //                                a.getEstado().setText("disponible");
                                  a.getEstado().setText("------");
+                                      a.getPanel().setBackground(Color.black);
+                                      // se desactiva boton enviar mensaje
+                                     a.getBotonMensaje().setEnabled(false);
+                            }else if(mensaje.equalsIgnoreCase("okchat"))
+                            {
+                                chat = true;
+                                dos.writeUTF(mensajeChat);
+                                continue;
+                            }else if(chat==true)
+                            {
+                                adm.escribirMensaje(mensaje);
+                                adm.Novisible();
+                                chat=false;
+                                continue;
                             }
 //                            else if(mensaje.equalsIgnoreCase("------"))
 //                            {
@@ -196,6 +250,7 @@ public class ClienteChat extends Thread
                                 System.out.println("llego el mensaje ok");
                                 continue;
                             }
+                     
 
 
 

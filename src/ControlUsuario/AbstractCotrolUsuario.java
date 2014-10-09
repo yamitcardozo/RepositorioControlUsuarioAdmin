@@ -7,6 +7,7 @@ package ControlUsuario;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * clase que muestra cada equipo en la intrerfaz de equipos del administrador
@@ -30,7 +31,14 @@ public  class AbstractCotrolUsuario {
      *  boton
      */
     JButton boton;
-
+    /**
+     * panel para cada conjunto de datos
+     */
+    JPanel panel;
+    /**
+     * boton para enviar mensajes al cliente 
+     */
+    JButton botonMensaje;
     /**
      *  constructor que asigna valores a los atributos
      */
@@ -39,8 +47,32 @@ public  class AbstractCotrolUsuario {
         equipo = new JLabel("equipo NA");
         nombre = new JLabel("nombre NAuno");
         estado = new JLabel("------");
-        boton = new JButton("inviar");
+        boton = new JButton("equipo1");
+        botonMensaje = new JButton();
+        panel = new JPanel();
 //        boton.setEnabled(false);
+    }
+    /**
+     * obtiene boton para enviar mensaje al servidor
+     * @return
+     */
+    public JButton getBotonMensaje() {
+        return botonMensaje;
+    }
+    /**
+     *  asigna boton para enviar mensaje al servidor
+     * @param botonMensaje
+     */
+    public void setBotonMensaje(JButton botonMensaje) {
+        this.botonMensaje = botonMensaje;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public void setPanel(JPanel panel) {
+        this.panel = panel;
     }
 
      /**

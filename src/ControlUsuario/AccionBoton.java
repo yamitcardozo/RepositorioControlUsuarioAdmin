@@ -46,7 +46,7 @@ public  class AccionBoton implements ActionListener {
 
                       for(int i=0;i<numeroEquipo;i++)
                       {
-                          if(e.getActionCommand().equalsIgnoreCase(("enviar"+(i+1))))
+                          if(e.getActionCommand().equalsIgnoreCase(("Equipo "+(i+1))))
                           {
                               metodoControlPortal(i);
                           }
